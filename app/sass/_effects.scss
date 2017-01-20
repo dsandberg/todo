@@ -1,0 +1,13 @@
+
+
+// ----- EFFECTS
+@keyframes shake {
+     0%, 100% {transform: translateX(0);}
+    10%, 30%, 50%, 70%, 90% {transform: translateX(-10px);}
+    20%, 40%, 60%, 80% {transform: translateX(10px);}
+}
+.shake {
+	animation-name: shake;
+	animation-duration: 0.3s;
+	animation-iteration-count: 1;
+}
