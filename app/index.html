@@ -12,9 +12,10 @@
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
 <link rel="stylesheet" type="text/css" href="css/styles.css">
+<link rel="stylesheet" type="text/css" href="css/animate.css">
 
 
-<title>To-Do</title>
+<title>ToDo</title>
 
 
 </head>
@@ -24,15 +25,42 @@
 	<div id="wrapper">
 		<div class="input-wrapper">
 			<input id="text-input" type="text" placeholder="Add to list..." autofocus>
-			<button id="main-btn" class="add-btn">+</button>
+			<div>
+				<button id="main-btn" class="green">+</button>
+				<div class="btn-wrapper">
+					<button class="yellow btn">+</button>
+					<button class="blue btn">+</button>
+					<button class="green btn">+</button>
+					<button class="red btn">+</button>
+				</div>
+			</div>
 	 	</div>
 		 <div id="list-wrapper">
-			 <div class="todo-wrapper checked">
-				<i class="label-btn material-icons">check_box_outline_blank</i>
-				<input class="todo-text" type="text" value="Test" disabled="disabled">
-				<i class="remove-btn material-icons">clear</i>
-			</div>
+			 <div class="todo-wrapper animated fadeInDown" data-id="101">
+				<i class="label-btn material-icons yellow"></i>
 
+				<!--<div class="change-color">
+					<i class="label-btn material-icons yellow"></i>
+					<i class="label-btn material-icons red"></i>
+					<i class="label-btn material-icons green"></i>
+					<i class="label-btn material-icons blue"></i>
+				</div>-->
+
+				<input class="todo-text" type="text" value="g">
+			 	<i class="remove-btn material-icons animated">clear</i>
+			 </div>
+		 </div>
+		 <div id="functions">
+			 <div>
+				 <i id="check-all" class="material-icons all">select_all</i>
+				 <i id="delete-all" class="material-icons">delete_forever</i>
+			 </div>
+			 <div>
+				<i id="sort-byName" class="material-icons">sort_by_alpha</i>
+				<i id="sort-byId" class="material-icons">access_time</i>
+				<i id="sort-byColor" class="material-icons">color_lens</i>
+			 	<i id="filter-color" class="material-icons">filter_list</i>
+			 </div>
 		 </div>
 	</div>
 

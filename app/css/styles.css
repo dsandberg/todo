@@ -131,18 +131,56 @@ body {
 #text-input::-webkit-input-placeholder {
   color: white; }
 
-.add-btn {
-  background-color: #95E1D3;
+.btn {
+  padding: 5px;
   border: none;
-  border-radius: 0 3px 3px 0;
+  border-radius: 3px;
   height: 30px;
   width: 30px;
   font-size: 1em;
   color: white;
   user-select: none; }
 
-.add-btn:hover {
+.btn:hover {
   cursor: pointer; }
+
+.btn-wrapper {
+  position: absolute;
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: -60px;
+  width: 60px;
+  display: none; }
+
+#main-btn {
+  border: none;
+  border-radius: 3px;
+  padding: 5px;
+  height: 30px;
+  width: 30px;
+  font-size: 1em;
+  color: white;
+  user-select: none;
+  position: relative;
+  border-radius: 0 3px 3px 0; }
+
+#main-btn:hover {
+  cursor: pointer; }
+
+.show {
+  display: flex !important; }
+
+.green {
+  background-color: #95E1D3; }
+
+.red {
+  background-color: #FE5454; }
+
+.yellow {
+  background-color: #E6C34F; }
+
+.blue {
+  background-color: #1A4266; }
 
 .todo-wrapper {
   display: flex;
@@ -150,7 +188,8 @@ body {
   border-radius: 3px;
   background-color: white;
   height: 30px;
-  overflow: hidden; }
+  overflow: hidden;
+  transition: all 0.1s ease-in-out; }
 
 .label-btn {
   display: flex;
@@ -158,7 +197,6 @@ body {
   justify-content: center;
   height: 100%;
   width: 30px;
-  background: #95E1D3;
   border-radius: 3px 0 0 3px; }
   .label-btn:hover {
     cursor: pointer; }
@@ -185,12 +223,42 @@ body {
   color: gray;
   border-radius: 0 3px 3px 0;
   height: 100%;
-  width: 30px; }
+  width: 30px;
+  transition: all 0.4s ease; }
   .remove-btn:hover {
     cursor: pointer; }
 
-.check {
-  opacity: 0.5; }
+.remove-btn:hover {
+  color: #FE5454; }
+
+#list-wrapper .check {
+  background: rgba(255, 255, 255, 0.5); }
+  #list-wrapper .check input, #list-wrapper .check i {
+    opacity: 0.7; }
+
+#functions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 5px;
+  margin-bottom: -1em; }
+  #functions .material-icons {
+    color: white;
+    padding: 0 3px;
+    opacity: 0.7; }
+    #functions .material-icons:hover {
+      cursor: pointer;
+      opacity: 1; }
+
+.change-color {
+  position: absolute;
+  margin-left: -60px;
+  display: flex;
+  flex-wrap: wrap;
+  width: 60px;
+  height: 30px;
+  display: none; }
+  .change-color i {
+    border-radius: 3px; }
 
 @keyframes shake {
   0%, 100% {
