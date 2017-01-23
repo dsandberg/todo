@@ -17,20 +17,55 @@ var sortColorBtn = document.querySelector('#sort-byColor');
 var filterBtn = document.querySelector('#filter-color');
 
 
-// unique id counter (use id++ to asign a new id)
-var id = 100;
+//------------------------------/
+// COOKIE functions
+//------------------------------/
+// Get cookie and parse to objects (return array of objects)
+function getCookie() {
+    var stringArray = [];
+    var jsonArray = [];
+    // Split coockie string
+    stringArray = document.cookie.split('|');
+    // if JSON object parse to object and push to new array
+    if (stringArray[0] === 'JSONobject=') {
+        stringArray.shift();
+        stringArray.forEach(function(e) {
+            var tempObject = JSON.parse(e);
+            jsonArray.push(new Todo(tempObject.color, tempObject.text, tempObject.id, tempObject.check));
+    });
+    }
+    return jsonArray;
+}
 
-// Array of todo objects
+// Save all todo objects to cookie
+function saveCookie(array) {
+    var coockieString = 'JSONobject=';
+    array.forEach(function(element) {
+        // add objects as a json string
+        coockieString += '|' + JSON.stringify(element);
+    });
+    document.cookie = coockieString;
+}
+
+
+//------------------------------/
+// MAIN Array to hold all todo objects
+//------------------------------/
 var todoArray = [];
 
-function test(target) {
+(function() {
+    if (document.cookie) {
+        console.log('getCookie');
+        todoArray = getCookie();
+    }
+}())
 
-            btn.forEach(function(e) {
-                e.addEventListener('click', function() {
-                    console.log(target);
-                });
-            });
-        }
+// unique id counter (use id++ to asign a new id)
+var id = 100;
+if (todoArray.length >= 1) {
+    console.log('here');
+    id = todoArray[todoArray.length - 1].id;
+}
 
 //------------------------------/
 // HELPER functions (small function to help)
@@ -102,6 +137,7 @@ function createTodo() {
     } else {
         shake();
     }
+    saveCookie(todoArray);
 }
 
 /*******************************/
@@ -126,6 +162,7 @@ function changeTodo(obj) {
             // Reset value
             obj.value = newArray[0].text;
         }
+    saveCookie(todoArray);
 }
 
 /*******************************/
@@ -138,8 +175,8 @@ function changeTodoCheck(obj) {
 
     // Search (filter)
     var newArray = todoArray.searchForValue('id', changeId, true);
-
     newArray[0].check = /(check)/.test(obj.parentNode.className);
+    saveCookie(todoArray);
 }
 
 // Check Todo
@@ -166,6 +203,7 @@ function deleteTodo(obj) {
 
     // replace the todoArray with a new array without the deleted todo
     todoArray = newArray;
+    saveCookie(todoArray);
 }
 
 
@@ -179,7 +217,7 @@ function Todo(color, text, id, check) {
     this.color = color;
     this.text = text;
     this.check = check;
-    this.time = new Date();
+    // this.time = new Date();
 
     // Create a node of the object
     this.create = function () {
@@ -445,19 +483,19 @@ filterBtn.addEventListener('click', function() {
 
 
 // Testing!
-var a = document.querySelector('#list-wrapper');
+// var a = document.querySelector('#list-wrapper');
 
-todoArray.push(new Todo('green', 'get a kick-ass internship!', id++, false));
-todoArray.push(new Todo('yellow', 'fix Safari bugg', id++, true));
-todoArray.push(new Todo('red', 'add ID system', id++, true));
-todoArray.push(new Todo('red', 'cant use DB to save data', id++, true));
-todoArray.push(new Todo('green', 'We need animation!', id++, false));
-todoArray.push(new Todo('blue', '', id++, false));
-todoArray.push(new Todo('green', 'This is way too long!... How do i solv that', id++, false));
-todoArray.push(new Todo('green', 'A', id++, false));
-todoArray.push(new Todo('green', 'B', id++, false));
-todoArray.push(new Todo('green', 'c', id++, false));
-todoArray.push(new Todo('green', 'D', id++, false));
+// todoArray.push(new Todo('green', 'get a kick-ass internship!', id++, false));
+// todoArray.push(new Todo('yellow', 'fix Safari bugg', id++, true));
+// todoArray.push(new Todo('red', 'add ID system', id++, true));
+// todoArray.push(new Todo('red', 'cant use DB to save data', id++, true));
+// todoArray.push(new Todo('green', 'We need animation!', id++, false));
+// todoArray.push(new Todo('blue', '', id++, false));
+// todoArray.push(new Todo('green', 'This is way too long!... How do i solv that', id++, false));
+// todoArray.push(new Todo('green', 'A', id++, false));
+// todoArray.push(new Todo('green', 'B', id++, false));
+// todoArray.push(new Todo('green', 'c', id++, false));
+// todoArray.push(new Todo('green', 'D', id++, false));
 
 // todoArray.push(new Todo('blue', 'B', id++, true));
 // todoArray.push(new Todo('yellow', 'g', id++, false));
@@ -473,3 +511,6 @@ todoArray.push(new Todo('green', 'D', id++, false));
 
 
 renderTodoAll(todoArray, listWrapper);
+// saveCookie(todoArray);
+
+// var x = getCookie();
