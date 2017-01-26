@@ -20,7 +20,8 @@ html {
 }
 
 body {
-    background-image: url("../img/1.jpg");
+    background-color: #2E4A58;
+	background-image: url('../img/1.jpg');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -180,7 +181,7 @@ body {
 
 
 
-// functions
+// footer functions
 
 #functions {
 	display: flex;
@@ -213,7 +214,6 @@ body {
 	i {
 		border-radius: 3px;
 	}
-
 }
 
 
