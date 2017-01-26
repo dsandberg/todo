@@ -1,11 +1,8 @@
 
 window.onload = function () {
-    // Load message
-    console.log("ToDo, Loaded!");
-
+    'use strict';
     // Random Background Image, IIF
     (function randomBG() {
-        'use strict';
         var randomNr = Math.floor(Math.random() * 9) + 1;
         document.querySelector('body').style.backgroundImage = "url('img/" + randomNr + ".jpg')";
     }());
@@ -38,10 +35,13 @@ window.onload = function () {
     var id = 100;
     // Check for the highest ID in the array
     function idCheck() {
-        'use strict';
         if (todoArray.length >= 1) {
-            todoArray.forEach(function(element) {id = element.id > id ? id = element.id : id;});
-        id++;
+            todoArray.forEach(function (element) {
+                if (element.id > id) {
+                    id = element.id;
+                }
+            });
+            id = id + 1;
         }
     }
 
@@ -52,7 +52,7 @@ window.onload = function () {
     // Three arguments, property & value to search for and...
     // boolean defines if to return search matches(true) or not matches(false)
     // Return new array
-    Array.prototype.searchForValue = function(property, value, boolean) {
+    Array.prototype.searchForValue = function (property, value, boolean) {
         var result = this.filter(function (element) {
             if (boolean) {
                 return element[property] === value;
@@ -66,9 +66,9 @@ window.onload = function () {
     // Sort By Property method (added to the array prototype)
     // One argument, property to sort by
     // Return new array
-    Array.prototype.sortByProp = function(property) {
+    Array.prototype.sortByProp = function (property) {
         // compare the first with the second element in the array
-        var sorted = this.slice(0).sort(function(first, second) {
+        var sorted = this.slice(0).sort(function (first, second) {
             if (first[property] > second[property]) {
                 return 1;
             } else if (first[property] < second[property]) {
@@ -93,10 +93,10 @@ window.onload = function () {
         // if JSON object parse to object and push to new array
         if (stringArray[0] === 'JSONobject=') {
             stringArray.shift();
-            stringArray.forEach(function(e) {
+            stringArray.forEach(function (e) {
                 var tempObject = JSON.parse(e);
                 jsonArray.push(new Todo(tempObject.color, tempObject.text, tempObject.id, tempObject.check));
-        });
+            });
         }
         return jsonArray;
     }
@@ -104,7 +104,7 @@ window.onload = function () {
     // Save all todo objects to cookie
     function saveCookie(array) {
         var cookieString = 'JSONobject=';
-        array.forEach(function(element) {
+        array.forEach(function (element) {
             // add objects as a json string
             cookieString += '|' + JSON.stringify(element);
         });
@@ -112,9 +112,8 @@ window.onload = function () {
     }
 
     // Get cookie if any + update the id, IIF
-    (function() {
+    (function () {
         if (document.cookie) {
-            console.log('getCookie');
             todoArray = getCookie();
             idCheck();
         }
@@ -133,7 +132,6 @@ window.onload = function () {
     //  CREATE Todo object from array
     /*******************************/
     function createTodo() {
-        'use strict';
         if (tInput.value) {
             var text = tInput.value;
             var color = mainBtn.className;
@@ -152,8 +150,7 @@ window.onload = function () {
     }
 
     // addEventListener for Enter press, adds the todo
-    tInput.addEventListener("keypress", function(e) {
-        'use strict';
+    tInput.addEventListener("keypress", function (e) {
         if (e.keyCode === 13) {
             createTodo();
         }
@@ -163,7 +160,6 @@ window.onload = function () {
     //  CHANGE ToDo object (text)
     /*******************************/
     function changeTodo(obj) {
-        'use strict';
         //Get id from parent node
         var changeId = parseInt(obj.parentNode.getAttribute('data-id'));
         var newText = obj.value;
@@ -175,12 +171,12 @@ window.onload = function () {
         if (newText) {
             // Change text in Todo
             newArray[0].text = newText;
-            } else {
-                // shake effect
-                shake();
-                // Reset value
-                obj.value = newArray[0].text;
-            }
+        } else {
+            // shake effect
+            shake();
+            // Reset value
+            obj.value = newArray[0].text;
+        }
         saveCookie(todoArray);
     }
 
@@ -188,7 +184,6 @@ window.onload = function () {
     //  CHANGE ToDo object (check)
     /*******************************/
     function changeTodoCheck(obj) {
-        'use strict';
         //Get id from parent node
         var changeId = parseInt(obj.parentNode.getAttribute('data-id'));
 
@@ -212,7 +207,6 @@ window.onload = function () {
     //  DELETE ToDo Array
     /*******************************/
     function deleteTodo(obj) {
-        'use strict';
         //Get id from parent node
         var deleteId = parseInt(obj.parentNode.getAttribute('data-id'));
 
@@ -228,7 +222,6 @@ window.onload = function () {
     // CONSTRUCTOR, ToDo Object
     /*******************************/
     function Todo(color, text, id, check) {
-        'use strict';
         this.id = id;
         this.color = color;
         this.text = text;
@@ -265,7 +258,7 @@ window.onload = function () {
             });
 
             // Check todo
-            label.addEventListener('click', function() {
+            label.addEventListener('click', function () {
                 checkTodo(this);
             });
 
@@ -287,7 +280,6 @@ window.onload = function () {
 
             // Add all nodes to the wrapper
             todoWrapper.appendChild(label);
-            // todoWrapper.appendChild(changeColorWrapper);
             todoWrapper.appendChild(todoText);
             todoWrapper.appendChild(remove);
 
@@ -296,16 +288,16 @@ window.onload = function () {
     }
 
     /************************************/
-    // EventListeners for color picking
+    // EventListeners for color pick
     /************************************/
     // addEventListener, show color options
-    mainBtn.addEventListener('click', function() {
+    mainBtn.addEventListener('click', function () {
         btnWrapper.classList.toggle('show');
     });
 
     // addEventListener, picking color option
-    btn.forEach(function(element) {
-        element.addEventListener('click', function() {
+    btn.forEach(function (element) {
+        element.addEventListener('click', function () {
             //Change the color on main btn
             mainBtn.className = this.classList[0];
             btnWrapper.classList.toggle('show');
@@ -319,27 +311,28 @@ window.onload = function () {
     /************************************/
     // Render all Todo objects
     function renderTodoAll(array, target) {
-        'use strict';
         // Remove all old nodes
         while (target.firstChild) {
             target.removeChild(target.firstChild);
         }
 
+        // Timeout function
+        // argument for multiplying the time
         function addOneByOne(nr) {
-            setTimeout(function() {
-                target.appendChild(array[nr].create()); 
+            setTimeout(function () {
+                target.appendChild(array[nr].create());
             }, nr * 100);
         }
 
-        // Add the objects one by obe with delay. IIF to increase the timeout for every object.
-        for (var i = 0; i < array.length; ++i) {
-            addOneByOne(i);
-        }
+        // Add the objects one by obe with delay (addOneByOne).
+        // The index nr is used as an argument for the timeoute function
+        array.forEach(function (element, index) {
+            addOneByOne(index);
+        });
     }
 
     // Render single Todo
     function renderTodo(object, target) {
-        'use strict';
         target.appendChild(object);
     }
 
@@ -349,13 +342,13 @@ window.onload = function () {
     /************************************/
 
     // addEventListener - Check All -
-    checkAllBtn.addEventListener('click', function() {
+    checkAllBtn.addEventListener('click', function () {
         var e = this;
         // Look for all class to check, else uncheck all
         if (/(all)/.test(e.className)) {
             e.classList.remove('all');
             // Select all "check" elements, loop through and add classes for styling
-            document.querySelectorAll('.label-btn').forEach(function(element) {
+            document.querySelectorAll('.label-btn').forEach(function (element) {
                 element.classList.add('x');
                 element.parentNode.classList.add('check');
                 // change the ToDo object
@@ -363,7 +356,7 @@ window.onload = function () {
             });
         } else {
             e.classList.add('all');
-            document.querySelectorAll('.label-btn').forEach(function(element) {
+            document.querySelectorAll('.label-btn').forEach(function (element) {
                 element.classList.remove('x');
                 element.parentNode.classList.remove('check');
                 changeTodoCheck(element);
@@ -372,7 +365,7 @@ window.onload = function () {
     });
 
     // addEventListener - Delete all checked -
-    deleteAllBtn.addEventListener('click', function() {
+    deleteAllBtn.addEventListener('click', function () {
         // Get all none checked todo objects
         var newArray = todoArray.searchForValue('check', true, false);
         // if the array is changed
@@ -396,28 +389,28 @@ window.onload = function () {
     }
 
     // addEventListener -- Sort by text --
-    sortTextBtn.addEventListener('click', function() {
+    sortTextBtn.addEventListener('click', function () {
         sortView(this, 'text');
     });
 
     // addEventListener -- Sort by time and id --
-    sortIdBtn.addEventListener('click', function() {
+    sortIdBtn.addEventListener('click', function () {
         sortView(this, 'id');
     });
 
     // addEventListener -- Sort by color --
-    sortColorBtn.addEventListener('click', function() {
+    sortColorBtn.addEventListener('click', function () {
         sortView(this, 'color');
     });
 
     // addEventListener -- Filter by color --
     // filterClick to count clicks
     var filterClick = 1;
-    filterBtn.addEventListener('click', function() {
+    filterBtn.addEventListener('click', function () {
         // Filter only if the color exist
         function filterOnlyIf(color) {
             var temp = [];
-            filterClick++;
+            filterClick = filterClick + 1;
             temp = todoArray.searchForValue('color', color, true);
             if (temp.length >= 1) {
                 renderTodoAll(temp, listWrapper);
@@ -425,22 +418,36 @@ window.onload = function () {
             }
         }
 
-    // Use the filterClick counter to change color to filter 
+        // Use the filterClick counter to change color to filter
+        // if filterOnlyIf() === true prevent fall through. else fall through to next case
         switch (filterClick) {
-            case 1:
-                if (filterOnlyIf('green')) {break;}
-            case 2:
-                if (filterOnlyIf('blue')) {break;}
-            case 3:
-            if (filterOnlyIf('yellow')) {break;}
-            case 4:
-            if (filterOnlyIf('red')) {break;}
-            case 5:
-                filterClick = 1;
-                renderTodoAll(todoArray, listWrapper);
+        case 1:
+            if (filterOnlyIf('green')) {
                 break;
+            }
+            // falls through
+        case 2:
+            if (filterOnlyIf('blue')) {
+                break;
+            }
+            // falls through
+        case 3:
+            if (filterOnlyIf('yellow')) {
+                break;
+            }
+            // falls through
+        case 4:
+            if (filterOnlyIf('red')) {
+                break;
+            }
+            // falls through
+        case 5:
+            filterClick = 1;
+            renderTodoAll(todoArray, listWrapper);
+            break;
         }
     });
 
+    // Render the todo objects
     renderTodoAll(todoArray, listWrapper);
 };
